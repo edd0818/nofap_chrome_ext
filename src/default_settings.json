@@ -1,0 +1,7 @@
+{
+    "request_type": ["main_frame","sub_frame"],
+    "blacklist": [
+        //"*://www.youtube.com/*",
+        "*://tw.yahoo.com/*"
+    ]  
+}
