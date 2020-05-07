@@ -1,12 +1,16 @@
 <template>
   <div>
-    <p>Hello world!</p>
+    <black-list></black-list>
   </div>
 </template>
 
 <script>
+import Blacklist from './components/blacklist.vue';
 export default {
   name: 'App',
+  components: {
+    "black-list": Blacklist
+  }
 };
 </script>
 

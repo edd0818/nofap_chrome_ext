@@ -2,4 +2,5 @@
     "singleQuote": true,
     "printWidth": 180,
     "trailingComma": "es5"
+    'prettier.tabWidth': 2
 }
