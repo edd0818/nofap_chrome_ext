@@ -37,9 +37,11 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
       if (chrome.webRequest.onBeforeRequest.hasListener(onBeforeRequestListener)) {
         chrome.webRequest.onBeforeRequest.removeListener(onBeforeRequestListener);
       }
-      // re-register listener with new settings
-      registerWebRequestListener(settings);
-      console.log("re-register listener.");
+      if (settings.blacklist.length > 0) {
+        // re-register listener with new settings
+        registerWebRequestListener(settings);
+        console.log("Re-register listener.");
+      }
     }
   });
 });
@@ -47,8 +49,6 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 actions.fetchSettings().then(settings => {
   if (settings) {
     registerWebRequestListener(settings);
-  } else {
-    console.error("Unable to register 'onBeforeRequest' because the settings is not found.");
   }
 })
 

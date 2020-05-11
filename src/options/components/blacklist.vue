@@ -7,7 +7,7 @@
         <td>  
           {{item}}
         </td>
-        <td><button @click="removeRule(idx)">remove</button></td>
+        <td><button @click="removeRule({name: item, id: idx})">remove</button></td>
       </tr>
     </table>
   </div>
@@ -37,9 +37,9 @@ export default {
           store.actions.addUrlToBlackList(this.newRule);
         }
     },
-    removeRule (index) {
-      if (index) {
-        store.actions.removeUrlFromBlacklist(index);
+    removeRule (rule) {
+      if (rule) {
+        store.actions.removeUrlFromBlacklist(rule.id);
       }
     }
   }
