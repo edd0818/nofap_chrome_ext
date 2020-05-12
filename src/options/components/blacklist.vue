@@ -15,6 +15,9 @@
 
 <script>
 import * as store from '../../store/store';
+const storedChangedListener = function(changes, namespace) {
+  store.actions.fetchSettings();
+}
 export default {
   // eslint-disable-next-line vue/no-shared-component-data
   data () {
@@ -23,10 +26,14 @@ export default {
     }
   },
   created (){
+    if (!chrome.storage.onChanged.hasListener(storedChangedListener)) {
+      chrome.storage.onChanged.addListener(storedChangedListener);
+    }
     store.actions.fetchSettings().then((settings) => {
       // console.log(settings);
       store.actions.updateSettings(settings);
     });
+
   },
   computed: {
     blacklist: () => store.state.settings.blacklist,

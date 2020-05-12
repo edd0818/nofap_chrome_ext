@@ -24,7 +24,6 @@ export const mutations = {
     //   console.log(state.settings.blacklist);
   },
   removeUrlFromBlacklist(idx) {
-      console.log(idx);
     state.settings.blacklist.splice(idx,1);
     // console.log(idx,state.settings.blacklist)
   }
