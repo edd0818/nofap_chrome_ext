@@ -1,6 +1,14 @@
 {
     "request_type": ["main_frame","sub_frame"],
-    "blacklist": [
-        "*://tw.yahoo.com/*"
-    ]  
+    "blacklist":[
+        "https://18comic.vip/*", 
+        "https://www.thisav.com/*", 
+        "https://jav.sh/*", 
+        "https://www.xvideos.com/*", 
+        "https://www.porn5f.com/*", 
+        "https://cn.pornhub.com/*", 
+        "https://spankbang.com/*", 
+        "https://avgle.com/*", 
+        "https://jable.tv/*", 
+        "https://24hjav.com/*"]  
 }
