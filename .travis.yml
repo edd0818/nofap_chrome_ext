@@ -2,7 +2,17 @@ language: node_js
 node_js:
   - "12"
 install:
-    - npm install
+  - npm install
+cache:
+  - npm
+
 script:
-    - npm run clean
-    - npm run build
+  - npm run build
+deploy:
+provider: pages
+skip_cleanup: true
+github_token: $GITHUB_TOKEN
+local_dir: dist
+repo: edd0818/edd0818.github.io
+on:
+  branch: master
