@@ -13,7 +13,6 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   local_dir: dist
-  repo: edd0818/edd0818.github.io/no-fap-ext
-  target_branch: master
+  repo: edd0818/edd0818.github.io
   on:
     branch: master
