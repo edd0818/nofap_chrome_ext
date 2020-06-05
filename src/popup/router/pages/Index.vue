@@ -27,7 +27,7 @@ export default {
     chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
       if(tab.active){
         let url = new URL(tab.url);
-        let target = url.origin + '/*';
+        let target = url.hostname;
         self.hasThisSite = store.state.settings.blacklist.includes(target);
       }
     }); 
@@ -44,7 +44,7 @@ export default {
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         let activeTab = tabs[0];
         let url = new URL(activeTab.url);
-        let target = url.origin + '/*'
+        let target = url.hostname
         if (!store.state.settings.blacklist.includes(target)){
           store.actions.addUrlToBlackList(target);
           self.hasThisSite = true;

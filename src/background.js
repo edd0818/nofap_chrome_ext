@@ -1,19 +1,36 @@
 import { settingsUtil } from './mist/utils';
-import {actions, getters, mutations} from './store/store'
+import {state, actions, getters, mutations} from './store/store'
 
 const onBeforeRequestListener = details => {
-  // console.log('onBeforeRequest.', details)
-  return { redirectUrl: 'https://www.google.com' };
+  let url = new URL(details.url);
+  let reUrl = 'https://www.google.com/';
+  let needToBlock = false;
+  // check if url is in the whitelist
+  if (!state.settings.whitelist.includes(url.hostname)) {
+    needToBlock = state.settings.blacklist.includes(url.hostname);
+    for (var i = 0; i < state.settings.filters.length; i++) {
+      if (needToBlock) {
+        break;
+      }
+      let filter = state.settings.filters[i];
+      let regex = new RegExp(filter, 'gi');
+      needToBlock = regex.test(url.hostname);
+    }
+  }
+
+  return { redirectUrl: needToBlock ? reUrl : null };
 };
+
 function registerWebRequestListener(settings) {
   chrome.webRequest.onBeforeRequest.addListener(
     onBeforeRequestListener,
     {
-      urls: settings.blacklist,
+      urls: ['http://*/*', 'https://*/*'],
       types: settings.request_type,
     },
     ['blocking']
   );
+  console.log("Register listener.");
 }
 chrome.runtime.onInstalled.addListener(function() {
   console.log("onInstalled.");
@@ -36,11 +53,11 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
       // remove origin listener
       if (chrome.webRequest.onBeforeRequest.hasListener(onBeforeRequestListener)) {
         chrome.webRequest.onBeforeRequest.removeListener(onBeforeRequestListener);
+        console.log("Removed listener.")
       }
       if (settings.blacklist.length > 0) {
         // re-register listener with new settings
         registerWebRequestListener(settings);
-        console.log("Re-register listener.");
       }
     }
   });

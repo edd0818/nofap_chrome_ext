@@ -4,13 +4,14 @@ import * as DEFAULT_SETTINGS from '../default_settings.json'
 
 export const state = Vue.observable({
   settings: {
+      requestType : [],
+      filters: [],
       blacklist : [],
-      requestType : []
-  },
+      whitelist: []
+  }
 });
 export const getters = {
-    blacklist: () => state.settings.blacklist,
-    requestType: () => state.settings.requestType
+
 };
 export const mutations = {
   setSettings(settings) {
@@ -25,6 +26,22 @@ export const mutations = {
   },
   removeUrlFromBlacklist(idx) {
     state.settings.blacklist.splice(idx,1);
+    // console.log(idx,state.settings.blacklist)
+  },
+  addUrlToWhitelist(url) {
+    state.settings.whitelist.push(url);
+    //   console.log(state.settings.blacklist);
+  },
+  removeUrlFromWhitelist(idx) {
+    state.settings.whitelist.splice(idx,1);
+    // console.log(idx,state.settings.blacklist)
+  },
+  addFilter(filter) {
+    state.settings.filters.push(filter);
+    //   console.log(state.settings.blacklist);
+  },
+  removeFilter(idx) {
+    state.settings.filters.splice(idx,1);
     // console.log(idx,state.settings.blacklist)
   }
 };
@@ -75,6 +92,38 @@ export const actions = {
     removeUrlFromBlacklist(idx) {
         return new Promise(resolve => {
             mutations.removeUrlFromBlacklist(idx);
+            chrome.storage.sync.set({ settings: state.settings }, function() {
+                resolve();
+            });
+        })
+    },
+    addUrlToWhitelist(url) {
+        return new Promise(resolve => {
+            mutations.addUrlToWhitelist(url);
+            chrome.storage.sync.set({ settings: state.settings }, function() {
+                resolve();
+            });
+        });
+    },
+    removeUrlFromWhitelist(idx) {
+        return new Promise(resolve => {
+            mutations.removeUrlFromWhitelist(idx);
+            chrome.storage.sync.set({ settings: state.settings }, function() {
+                resolve();
+            });
+        })
+    },
+    addFilter(filter) {
+        return new Promise(resolve => {
+            mutations.addFilter(filter);
+            chrome.storage.sync.set({ settings: state.settings }, function() {
+                resolve();
+            });
+        });
+    },
+    removeFilter(idx) {
+        return new Promise(resolve => {
+            mutations.removeFilter(idx);
             chrome.storage.sync.set({ settings: state.settings }, function() {
                 resolve();
             });

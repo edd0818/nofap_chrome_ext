@@ -1,13 +1,13 @@
 <template>
   <div>
-    <input v-model="newRule" />
-    <button @click="addRule()">add</button>
+    <input v-model="newFilter" />
+    <button @click="addFilter()">add</button>
     <table>
-      <tr v-for="(item,idx) in blacklist" :key="item.index">
+      <tr v-for="(item,idx) in filters" :key="item.index">
         <td>  
           {{item}}
         </td>
-        <td><button @click="removeRule({name: item, id: idx})">remove</button></td>
+        <td><button @click="removeFilter({name: item, id: idx})">remove</button></td>
       </tr>
     </table>
   </div>
@@ -22,7 +22,7 @@ export default {
   // eslint-disable-next-line vue/no-shared-component-data
   data () {
     return {
-      newRule: null
+      newFilter: null
     }
   },
   created (){
@@ -36,18 +36,18 @@ export default {
 
   },
   computed: {
-    blacklist: () => store.state.settings.blacklist,
+    filters: () => store.state.settings.filters,
   },
   methods : {
-    addRule () {
-      if (this.newRule) {
-          store.actions.addUrlToBlackList(this.newRule);
-          this.newRule = null
+    addFilter () {
+      if (this.newFilter) {
+          store.actions.addFilter(this.newFilter);
+          this.newFilter = null;
         }
     },
-    removeRule (rule) {
-      if (rule) {
-        store.actions.removeUrlFromBlacklist(rule.id);
+    removeFilter (filter) {
+      if (filter) {
+        store.actions.removeFilter(filter.id);
       }
     }
   }

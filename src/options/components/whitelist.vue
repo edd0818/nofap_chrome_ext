@@ -3,7 +3,7 @@
     <input v-model="newRule" />
     <button @click="addRule()">add</button>
     <table>
-      <tr v-for="(item,idx) in blacklist" :key="item.index">
+      <tr v-for="(item,idx) in whitelist" :key="item.index">
         <td>  
           {{item}}
         </td>
@@ -36,18 +36,18 @@ export default {
 
   },
   computed: {
-    blacklist: () => store.state.settings.blacklist,
+    whitelist: () => store.state.settings.whitelist,
   },
   methods : {
     addRule () {
       if (this.newRule) {
-          store.actions.addUrlToBlackList(this.newRule);
+          store.actions.addUrlToWhitelist(this.newRule);
           this.newRule = null
         }
     },
     removeRule (rule) {
       if (rule) {
-        store.actions.removeUrlFromBlacklist(rule.id);
+        store.actions.removeUrlFromWhitelist(rule.id);
       }
     }
   }
