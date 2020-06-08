@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import * as DEFAULT_SETTINGS from '../default_settings.json'
+import {default as DEFAULT_SETTINGS} from '../default_settings.json'
 
 
 export const state = Vue.observable({
@@ -7,7 +7,8 @@ export const state = Vue.observable({
       requestType : [],
       filters: [],
       blacklist : [],
-      whitelist: []
+      whitelist: [],
+      notification_recipient: []
   }
 });
 export const getters = {
@@ -43,13 +44,21 @@ export const mutations = {
   removeFilter(idx) {
     state.settings.filters.splice(idx,1);
     // console.log(idx,state.settings.blacklist)
+  },
+  addRecipient(recipient) {
+    state.settings.notification_recipient.push(recipient);
+    //   console.log(state.settings.blacklist);
+  },
+  removeRecipient(idx) {
+    state.settings.notification_recipient.splice(idx,1);
+    // console.log(idx,state.settings.blacklist)
   }
 };
 
 export const actions = {
     fetchDefaultSettings() {
         return new Promise((resolve, reject) => {
-            mutations.setSettings(DEFAULT_SETTINGS.default);
+            mutations.setSettings(DEFAULT_SETTINGS);
             resolve(state.settings);
         });
     },
@@ -124,6 +133,22 @@ export const actions = {
     removeFilter(idx) {
         return new Promise(resolve => {
             mutations.removeFilter(idx);
+            chrome.storage.sync.set({ settings: state.settings }, function() {
+                resolve();
+            });
+        })
+    },
+    addRecipient(recipient) {
+        return new Promise(resolve => {
+            mutations.addRecipient(recipient);
+            chrome.storage.sync.set({ settings: state.settings }, function() {
+                resolve();
+            });
+        });
+    },
+    removeRecipient(idx) {
+        return new Promise(resolve => {
+            mutations.removeRecipient(idx);
             chrome.storage.sync.set({ settings: state.settings }, function() {
                 resolve();
             });

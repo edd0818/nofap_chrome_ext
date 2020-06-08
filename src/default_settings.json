@@ -29,5 +29,6 @@
         "7mmtv.tv",
         "javtrailers.com",
         "airav.cc"],
-    "whitelist": []
+    "whitelist": [],
+    "notification_recipient": []
 }

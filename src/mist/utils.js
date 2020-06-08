@@ -1,36 +1,14 @@
-const DEFAULT_SETTINGS_PATH = 'default_settings.json';
-
-const settingsUtil = {
-  set: (settings, callback) => {
-    chrome.storage.sync.set({ settings: settings }, function() {
-      if (callback) {
-        callback();
-      }
-    });
-  },
-  get: callback => {
-    const params = { settings: null };
-    chrome.storage.sync.get(params, result => {
-      if (callback) {
-        callback(result.settings);
-      }
-    });
-  },
-  /**
-   * Retreive default settings from static json file.
-   * @param {function} callback The function to be invoked when fetching data successfully.
-   */
-  getDefault: callback => {
-    const url = chrome.runtime.getURL(DEFAULT_SETTINGS_PATH);
-    fetch(url)
-      .then(response => response.json()) // assuming file contains json
-      .then(json => {
-        console.log(json);
-        if (callback) {
-          callback(json);
-        }
-      });
-  },
+import _ from 'lodash';
+const utils = {
+  sendFappingNotification : _.debounce((recipient) => {
+    if (recipient && recipient.length > 0){
+      let data = new FormData();
+      data.append('recipient', recipient.join(','));
+      fetch("https://script.google.com/macros/s/AKfycbwBXUhDlOpW1_sr_ij8p5DwJ1Ph0ZJCDScuYRO5rLaYrQ5-98gF/exec"
+      , {method: 'POST', body: data});
+    }
+    
+  }, 30000)
 };
 
-export { settingsUtil };
+export { utils };

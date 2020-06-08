@@ -1,11 +1,11 @@
-import { settingsUtil } from './mist/utils';
-import {state, actions, getters, mutations} from './store/store'
-
+import {state, actions, getters, mutations} from './store/store';
+import {utils} from './mist/utils';
 const onBeforeRequestListener = details => {
   let url = new URL(details.url);
   let reUrl = 'https://www.google.com/';
   let needToBlock = false;
-  // check if url is in the whitelist
+
+  // check if url is in the whitelist first
   if (!state.settings.whitelist.includes(url.hostname)) {
     needToBlock = state.settings.blacklist.includes(url.hostname);
     for (var i = 0; i < state.settings.filters.length; i++) {
@@ -16,6 +16,9 @@ const onBeforeRequestListener = details => {
       let regex = new RegExp(filter, 'gi');
       needToBlock = regex.test(url.hostname);
     }
+  }
+  if (needToBlock) {
+    utils.sendFappingNotification(state.settings.notification_recipient);
   }
 
   return { redirectUrl: needToBlock ? reUrl : null };
