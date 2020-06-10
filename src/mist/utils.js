@@ -8,7 +8,7 @@ const GASUtils = {
       , {method: 'POST', body: data});
     }
     
-  }, 30000)
+  }, 10000)
 };
 
 const HTMLUtil = {
