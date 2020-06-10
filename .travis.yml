@@ -9,7 +9,7 @@ cache:
 script:
   - npm run build
 deploy:
-  provider: pages
+  provider: pages # Deploy edd0818/nofap_chrome_ext to github.com/edd0818/nofap_chrome_ext.git:gh-pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   local_dir: dist

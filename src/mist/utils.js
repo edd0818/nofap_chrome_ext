@@ -1,5 +1,5 @@
 import _ from 'lodash';
-const utils = {
+const GASUtils = {
   sendFappingNotification : _.debounce((recipient) => {
     if (recipient && recipient.length > 0){
       let data = new FormData();
@@ -11,4 +11,20 @@ const utils = {
   }, 30000)
 };
 
-export { utils };
+const HTMLUtil = {
+  getMetaInfos: (doc, ...targets) => {
+    const metas = doc.getElementsByTagName('meta');
+    const regex = new RegExp(targets.join('|'));
+    let infos = []
+    for (let i = 0; i < metas.length; i++) {
+        let name = metas[i].getAttribute('name');
+        let content = metas[i].getAttribute('content');
+        if (regex.test(name) && !infos.includes(content)) {
+            infos.push(content);
+        }
+    }
+    return infos;
+  }
+}
+
+export {GASUtils,  HTMLUtil};

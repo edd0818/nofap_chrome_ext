@@ -1,5 +1,5 @@
 import {state, actions, getters, mutations} from './store/store';
-import {utils} from './mist/utils';
+import {GASUtils} from './mist/utils';
 const onBeforeRequestListener = details => {
   let url = new URL(details.url);
   let reUrl = 'https://www.google.com/';
@@ -18,7 +18,7 @@ const onBeforeRequestListener = details => {
     }
   }
   if (needToBlock) {
-    utils.sendFappingNotification(state.settings.notification_recipient);
+    GASUtils.sendFappingNotification(state.settings.notification_recipient);
   }
 
   return { redirectUrl: needToBlock ? reUrl : null };
@@ -65,6 +65,10 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
     }
   });
 });
+chrome.runtime.onMessage.addListener(function(request, sender) {
+  chrome.tabs.update(sender.tab.id, {url: request.redirect});
+});
+
 // Initializing Web-Request listener.
 actions.fetchSettings().then(settings => {
   if (settings) {
