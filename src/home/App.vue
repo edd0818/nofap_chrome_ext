@@ -8,14 +8,13 @@
 <script>
 
 export default {
-  name: 'App',
+  name: 'App'
   
-  }
 };
 </script>
 
 <style scoped>
-  @import "./index.css";
+@import "./index.css";
 p {
   font-size: 20px;
 }
