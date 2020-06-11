@@ -66,7 +66,6 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
   });
 });
 chrome.runtime.onMessage.addListener(function(request, sender) {
-
   if (request.type == messageType.BLOCK_FROM_CONTENT_SCRIPT) {
     GASUtils.sendFappingNotification(state.settings.notification_recipient);
     chrome.tabs.update(sender.tab.id, {url: request.redirect});
