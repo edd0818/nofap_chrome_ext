@@ -1,8 +1,9 @@
 import {state, actions, getters, mutations} from './store/store';
 import {GASUtils} from './mist/utils';
+import messageType from './mist/messageType'
 const onBeforeRequestListener = details => {
   let url = new URL(details.url);
-  let reUrl = 'https://www.google.com/';
+  let reUrl = chrome.runtime.getURL("home/home.html");;
   let needToBlock = false;
 
   // check if url is in the whitelist first
@@ -20,7 +21,6 @@ const onBeforeRequestListener = details => {
   if (needToBlock) {
     GASUtils.sendFappingNotification(state.settings.notification_recipient);
   }
-
   return { redirectUrl: needToBlock ? reUrl : null };
 };
 
@@ -66,7 +66,11 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
   });
 });
 chrome.runtime.onMessage.addListener(function(request, sender) {
-  chrome.tabs.update(sender.tab.id, {url: request.redirect});
+
+  if (request.type == messageType.BLOCK_FROM_CONTENT_SCRIPT) {
+    GASUtils.sendFappingNotification(state.settings.notification_recipient);
+    chrome.tabs.update(sender.tab.id, {url: request.redirect});
+  }
 });
 
 // Initializing Web-Request listener.
@@ -74,5 +78,4 @@ actions.fetchSettings().then(settings => {
   if (settings) {
     registerWebRequestListener(settings);
   }
-})
-
+});

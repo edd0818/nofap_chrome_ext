@@ -28,7 +28,9 @@
         "javcl.com",
         "7mmtv.tv",
         "javtrailers.com",
-        "airav.cc"],
+        "airav.cc",
+        "pigav.com"
+    ],
     "whitelist": [],
     "notification_recipient": []
 }
