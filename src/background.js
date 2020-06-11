@@ -1,6 +1,8 @@
 import {state, actions, getters, mutations} from './store/store';
 import {GASUtils} from './mist/utils';
 import messageType from './mist/messageType'
+import debounce from 'debounce-promise';
+
 const onBeforeRequestListener = details => {
   let url = new URL(details.url);
   let reUrl = chrome.runtime.getURL("home/home.html");;
@@ -19,7 +21,7 @@ const onBeforeRequestListener = details => {
     }
   }
   if (needToBlock) {
-    GASUtils.sendFappingNotification(state.settings.notification_recipient);
+    sendFappingNotification();
   }
   return { redirectUrl: needToBlock ? reUrl : null };
 };
@@ -35,6 +37,11 @@ function registerWebRequestListener(settings) {
   );
   console.log("Register listener.");
 }
+
+const sendFappingNotification = debounce(()=> {
+  return GASUtils.sendFappingNotification(state.settings.notification_recipient);
+}, 10000);
+
 chrome.runtime.onInstalled.addListener(function() {
   console.log("onInstalled.");
   // Storing default settings if thers's no stored settings
@@ -67,7 +74,7 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 });
 chrome.runtime.onMessage.addListener(function(request, sender) {
   if (request.type == messageType.BLOCK_FROM_CONTENT_SCRIPT) {
-    GASUtils.sendFappingNotification(state.settings.notification_recipient);
+    sendFappingNotification();
     chrome.tabs.update(sender.tab.id, {url: request.redirect});
   }
 });

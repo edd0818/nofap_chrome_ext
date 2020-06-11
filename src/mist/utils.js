@@ -1,4 +1,3 @@
-import _ from 'lodash';
 const GASUtils = {
   sendFappingNotification : (recipient) => {
     if (recipient && recipient.length > 0){
