@@ -1,0 +1,46 @@
+{
+  "name": "NoFap Porn Sites Blocker",
+  "description": "Blocking porn sites",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "icons": {
+    "48": "icons/icon_48.png",
+    "128": "icons/icon_128.png"
+  },
+  "browser_action": {
+    "default_title": "nofap_chrome_ext",
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "run_at": "document_idle",
+      "js": [
+        "contentScript.js"
+      ]
+    }
+  ],
+  "options_ui": {
+    "page": "options/options.html",
+    "chrome_style": true,
+    "open_in_tab": true
+  },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage",
+    "webRequest",
+    "webRequestBlocking",
+    "http://*/*",
+    "https://*/*"
+  ]
+}
