@@ -12,7 +12,7 @@ export const state = Vue.observable({
   }
 });
 export const getters = {
-
+    
 };
 export const mutations = {
   setSettings(settings) {

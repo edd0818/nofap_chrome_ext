@@ -41,7 +41,7 @@ export default {
   methods : {
     addRecipient () {
       if (this.newRecipient) {
-          store.actions.addRecipient(this.newRecipient);
+          store.actions.addRecipient(this.newRecipient.trim());
           this.newRecipient = null
         }
     },

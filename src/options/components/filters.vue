@@ -41,7 +41,7 @@ export default {
   methods : {
     addFilter () {
       if (this.newFilter) {
-          store.actions.addFilter(this.newFilter);
+          store.actions.addFilter(this.newFilter.trim());
           this.newFilter = null;
         }
     },

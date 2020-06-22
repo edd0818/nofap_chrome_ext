@@ -7,7 +7,7 @@ import {state, actions, getters, mutations} from './store/store';
 let pageInfo = HTMLUtil.getMetaInfos(document, 'title', 'description', 'keyword');
 pageInfo.push(document.title);
 
-const keywordsRegex = new RegExp(keywords.join('|'), 'gi');
+const keywordsRegex = new RegExp(keywords.join('|'), 'i');
 let isAdultContent = keywordsRegex.test(pageInfo.join(' '));
 
 if (isAdultContent) {

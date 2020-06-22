@@ -16,7 +16,7 @@ const onBeforeRequestListener = details => {
         break;
       }
       let filter = state.settings.filters[i];
-      let regex = new RegExp(filter, 'gi');
+      let regex = new RegExp(filter, 'i');
       needToBlock = regex.test(url.hostname);
     }
   }

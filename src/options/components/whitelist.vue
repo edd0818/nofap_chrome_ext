@@ -41,7 +41,7 @@ export default {
   methods : {
     addRule () {
       if (this.newRule) {
-          store.actions.addUrlToWhitelist(this.newRule);
+          store.actions.addUrlToWhitelist(this.newRule.trim());
           this.newRule = null
         }
     },
